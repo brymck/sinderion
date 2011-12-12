@@ -39,4 +39,8 @@ class Ingredient < ActiveRecord::Base
   def value
     effects.map(&:value).inject(:+)
   end
+
+  def to_param
+    slug
+  end
 end

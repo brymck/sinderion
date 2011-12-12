@@ -18,7 +18,10 @@ ActiveRecord::Schema.define(:version => 20111212064948) do
     t.string  "description", :null => false
     t.integer "magnitude",   :null => false
     t.integer "value",       :null => false
+    t.string  "slug",        :null => false
   end
+
+  add_index "effects", ["slug"], :name => "index_effects_on_slug", :unique => true
 
   create_table "effects_ingredients", :id => false, :force => true do |t|
     t.integer "effect_id",     :null => false
@@ -32,6 +35,9 @@ ActiveRecord::Schema.define(:version => 20111212064948) do
     t.integer "cost",                      :null => false
     t.float   "weight",                    :null => false
     t.boolean "rare",   :default => false, :null => false
+    t.string  "slug",                      :null => false
   end
+
+  add_index "ingredients", ["slug"], :name => "index_ingredients_on_slug", :unique => true
 
 end

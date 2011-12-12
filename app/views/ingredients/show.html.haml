@@ -1,0 +1,30 @@
+%table
+  %tr
+    %th Name
+    %td= @ingredient.name
+  %tr
+    %th Cost
+    %td= @ingredient.cost
+  %tr
+    %th Value
+    %td= @ingredient.value
+  %tr
+    %th Weight
+    %td= @ingredient.weight
+%h2 Combinations
+%table
+  %thead
+    %tr
+      %th Name
+      %th{:colspan => 4} Effects
+      %th Value
+  %tbody
+    - @ingredient.compatible_list.each do |i|
+      %tr
+        %td= link_to i.name, i
+        - potion = Potion.new(@ingredient, i)
+        - potion.effects.each do |e|
+          %td= link_to e.name, e
+        - if potion.effects.count < 4
+          %td{:colspan => 4 - potion.effects.count}
+        %td= potion.value

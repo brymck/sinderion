@@ -6,7 +6,9 @@ class CreateIngredientsEffects < ActiveRecord::Migration
       t.integer :cost, :null => false
       t.float :weight, :null => false
       t.boolean :rare, :null => false, :default => false
+      t.string :slug, :null => false
     end
+    add_index :ingredients, :slug, :unique => true
 
     # Effects
     create_table :effects do |t|
@@ -14,7 +16,9 @@ class CreateIngredientsEffects < ActiveRecord::Migration
       t.string :description, :null => false
       t.integer :magnitude, :null => false
       t.integer :value, :null => false
+      t.string :slug, :null => false
     end
+    add_index :effects, :slug, :unique => true
 
     # HABTM table
     create_table :effects_ingredients, :id => false do |t|
