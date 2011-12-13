@@ -1,0 +1,4 @@
+%section#breadcrumbs
+  %ul.angle-delimited
+    - @breadcrumbs.each do |crumb|
+      %li= link_to crumb[0], crumb[1]

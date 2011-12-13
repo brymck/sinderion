@@ -1,5 +1,6 @@
 class Ingredient < ActiveRecord::Base
   has_and_belongs_to_many :effects
+  has_and_belongs_to_many :potions
 
   def compatible?(other_ingredient)
     !matches(other_ingredient).blank?

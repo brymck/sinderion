@@ -1,2 +1,34 @@
-- @ingredients.each do |i|
-  = i.name
+%h2 Ingredients
+%table
+  %thead
+    %tr
+      %th Name
+      %th Weight
+      %th Cost
+      %th{:colspan => 4} Effects
+  %tbody
+    - @potion.ingredients.each do |i|
+      %tr
+        %td= link_to i.name, i
+        %td= i.weight
+        %td= i.cost
+        - i.effects.each do |e|
+          %td= link_to e.name, e
+%h2 Effects
+%table
+  %thead
+    %tr
+      %th Name
+      %th Value
+      %th Description
+  %tbody
+    - @potion.effects.sort_by(&:value).reverse.each do |e|
+      %tr
+        %td= link_to e.name, e
+        %td= e.value
+        %td= e.description
+  %tfoot
+    %tr.overline
+      %td &nbsp;
+      %td= @potion.value
+      %td &nbsp;

@@ -1,0 +1,21 @@
+%table
+  %thead
+    %tr
+      %th Name
+      %th{:colspan => 3}Ingredients
+      %th{:colspan => 5}Effects
+      %th Value
+  %tbody
+    - @potions.each do |potion|
+      %tr
+        %td= link_to "Potion", potion
+        - potion.ingredients.each do |ingredient|
+          %td= link_to ingredient.name, ingredient
+        - if potion.ingredients.count == 2
+          %td &nbsp;
+        - potion.effects.each do |effect|
+          %td= link_to effect.name, effect
+        - if potion.effects.count < 5
+          %td{:colspan => 5 - potion.effects.count}
+        %td= potion.value
+= will_paginate @potions

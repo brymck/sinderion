@@ -1,6 +1,12 @@
 Sinderion::Application.routes.draw do
+  # Ingredients and effects
   resources :effects, :ingredients, :only => [:index, :show]
-  match "/potions/:id/:id_2(/:id_3)" => "potions#show"
+
+  # Potions
+  resources :potions, :only => :index
+  get "/potions/:id/:id_2(/:id_3)" => "potions#show", :as => "potion"
+
+  root :to => 'ingredients#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -51,7 +57,6 @@ Sinderion::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
 
   # See how all your routes lay out with "rake routes"
 

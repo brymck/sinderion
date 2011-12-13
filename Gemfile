@@ -11,6 +11,7 @@ end
 gem 'haml'
 gem 'jquery-rails'
 gem 'thin'
+gem 'will_paginate'
 
 group :production do
   gem 'pg'

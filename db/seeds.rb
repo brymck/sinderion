@@ -1,4 +1,5 @@
 # Effects
+print "Seeding alchemical effects..."
 cure_disease = Effect.create(:name => "Cure Disease",
   :description => "Cures all diseases",
   :magnitude => 5,
@@ -274,8 +275,10 @@ weakness_to_shock = Effect.create(:name => "Weakness to Shock",
   :magnitude => 3,
   :value => 56,
   :slug => "weakness_to_shock")
+puts " #{Effect.count} total"
 
 # Ingredients
+print "Seeding ingredients..."
 Ingredient.create :name => "Abecean Longfin",
   :weight => 0.5,
   :cost => 15,
@@ -745,3 +748,48 @@ Ingredient.create :name => "Jarrin Root",
   :effects => [damage_health, damage_magicka, damage_stamina, damage_magicka_regen],
   :slug => "jarrin_root",
   :rare => true
+puts " #{Ingredient.count} total"
+
+# Potions
+puts "Seeding potions..."
+running_total = 0
+all_ingredients = Ingredient.all
+while all_ingredients.count > 1
+  # Get the first ingredient, then remove that ingredient from the list
+  a = all_ingredients.delete_at(0)
+  print "  #{a.name}..."
+  initial_total = running_total
+
+  # Build list of tertiary ingredients using a new copy of the list
+  tertiary_ingredients = all_ingredients.clone
+  all_ingredients.each do |b|
+    # See whether first two ingredients combine
+    a_b = (a.effects & b.effects)
+    if !(a_b).empty?
+      Potion.create :ingredients => [a, b],
+        :effects => a_b,
+        :value => a_b.map(&:value).inject(:+)
+      running_total += 1
+    end
+
+    # Check third ingredients
+    tertiary_ingredients.delete_at 0
+    tertiary_ingredients.each do |c|
+      a_c = a.effects & c.effects
+      b_c = b.effects & c.effects
+      total_matches = [a_b, a_c, b_c].inject(0) do |sum, arrs|
+        sum += !arrs.empty? ? 1 : 0
+      end
+      if total_matches >= 2
+        a_b_c = a_b | a_c | b_c
+        Potion.create :ingredients => [a, b, c],
+          :effects => a_b_c,
+          :value => a_b_c.map(&:value).inject(:+)
+        running_total += 1
+      end
+    end
+  end
+
+  puts " #{running_total - initial_total} subtotal"
+end
+puts " #{Potion.count} total"

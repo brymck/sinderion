@@ -1,3 +1,4 @@
+%h2 Details
 %table
   %tr
     %th Name
@@ -5,13 +6,19 @@
   %tr
     %th Cost
     %td= @ingredient.cost
-  %tr
+  %tr.overline
+    %th Effects
+    %td
+      %ul
+        - @ingredient.effects.each do |e|
+          %li= link_to e.name, e
+  %tr.overline
     %th Value
     %td= @ingredient.value
   %tr
     %th Weight
     %td= @ingredient.weight
-%h2 Combinations
+%h2 Mixable Ingredients
 %table
   %thead
     %tr
@@ -22,9 +29,28 @@
     - @ingredient.compatible_list.each do |i|
       %tr
         %td= link_to i.name, i
-        - potion = Potion.new(@ingredient, i)
+        - i.effects.each do |e|
+          %td{:class => (@ingredient.effects.include?(e) ? nil : "not_match")}= link_to e.name, e
+        %td= (@ingredient.effects & i.effects).map(&:value).inject(:+)
+%h2 Potions
+%table
+  %thead
+    %tr
+      %th{:colspan => 3} Ingredients
+      %th{:colspan => 5} Effects
+      %th Value
+      %th &nbsp;
+  %tbody
+    - @potions.each do |potion|
+      %tr
+        %td= @ingredient.name
+        - potion.ingredients.each do |i|
+          - unless @ingredient == i
+            %td= link_to i.name, i
+        = pad_columns potion.ingredients.count, 3
         - potion.effects.each do |e|
           %td= link_to e.name, e
-        - if potion.effects.count < 4
-          %td{:colspan => 4 - potion.effects.count}
+        = pad_columns potion.effects.count, 5
         %td= potion.value
+        %td= link_to "see description", potion
+= will_paginate @potions

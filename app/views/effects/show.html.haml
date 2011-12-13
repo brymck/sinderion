@@ -1,1 +1,45 @@
-= @effect.name
+%h2 Details
+%table
+  %tr
+    %th Name
+    %td= @effect.name
+  %tr
+    %th Description
+    %td= @effect.description
+  %tr
+    %th Value
+    %td= @effect.value
+%h2 Ingredients
+%table
+  %thead
+    %tr
+      %th Name
+      %th{:colspan => 4} Effects
+      %th Value
+  %tbody
+    - @effect.ingredients.each do |i|
+      %tr
+        %td= link_to i.name, i
+        - i.effects.each do |e|
+          %td= link_to e.name, e
+        %td= i.value
+%h2 Potions
+%table
+  %thead
+    %tr
+      %th{:colspan => 3} Ingredients
+      %th{:colspan => 5} Effects
+      %th Value
+      %th &nbsp;
+  %tbody
+    - @potions.each do |potion|
+      %tr
+        - potion.ingredients.each do |i|
+          %td= link_to i.name, i
+        = pad_columns potion.ingredients.count, 3
+        - potion.effects.each do |e|
+          %td= link_to_unless_current e.name, e
+        = pad_columns potion.effects.count, 5
+        %td= potion.value
+        %td= link_to "see description", potion
+= will_paginate @potions

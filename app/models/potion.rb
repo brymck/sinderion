@@ -1,17 +1,10 @@
-class Potion
+class Potion < ActiveRecord::Base
   attr_reader :effects
+  default_scope :order => "potions.value DESC"
+  has_and_belongs_to_many :effects
+  has_and_belongs_to_many :ingredients
 
-  def initialize(*ingredients)
-    if ingredients.nil?
-      @effects = []
-    else
-      # Keep all effects that have a count greater than 1
-      all_effects = ingredients.map(&:effects).flatten
-      @effects = all_effects.uniq.keep_if { |i| all_effects.count(i) > 1 }
-    end
-  end
-
-  def value
-    @effects.map(&:value).inject(:+)
+  def to_param
+    potion.ingredients.map(&:name).join("/")
   end
 end

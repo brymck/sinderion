@@ -1,0 +1,19 @@
+/* Flat list template */
+@mixin flat-list($delimiter)
+  display: inline-block
+  list-style-type: none
+  li
+    display: inline-block
+  li:after
+    content: $delimiter
+  li:last-child:after
+    content: ""
+
+/* Flat lists */
+ul.comma-separated
+  @include flat-list(", ")
+ul.or-separated
+  @include flat-list(" or ")
+ul.angle-delimited
+  @include flat-list(" » ")
+

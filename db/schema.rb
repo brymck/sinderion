@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111212064948) do
+ActiveRecord::Schema.define(:version => 20111213053226) do
 
   create_table "effects", :force => true do |t|
     t.string  "name",        :null => false
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(:version => 20111212064948) do
 
   add_index "effects_ingredients", ["effect_id", "ingredient_id"], :name => "index_effects_ingredients_on_effect_id_and_ingredient_id", :unique => true
 
+  create_table "effects_potions", :id => false, :force => true do |t|
+    t.integer "effect_id", :null => false
+    t.integer "potion_id", :null => false
+  end
+
+  add_index "effects_potions", ["effect_id", "potion_id"], :name => "index_effects_potions_on_effect_id_and_potion_id", :unique => true
+
   create_table "ingredients", :force => true do |t|
     t.string  "name",                      :null => false
     t.integer "cost",                      :null => false
@@ -39,5 +46,16 @@ ActiveRecord::Schema.define(:version => 20111212064948) do
   end
 
   add_index "ingredients", ["slug"], :name => "index_ingredients_on_slug", :unique => true
+
+  create_table "ingredients_potions", :id => false, :force => true do |t|
+    t.integer "ingredient_id", :null => false
+    t.integer "potion_id",     :null => false
+  end
+
+  add_index "ingredients_potions", ["ingredient_id", "potion_id"], :name => "index_ingredients_potions_on_ingredient_id_and_potion_id", :unique => true
+
+  create_table "potions", :force => true do |t|
+    t.integer "value"
+  end
 
 end

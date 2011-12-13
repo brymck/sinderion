@@ -10,6 +10,12 @@ module ApplicationHelper
     end
   end
 
+  def pad_columns(x, max)
+    if x < max
+      "<td colspan=\"#{max - x}\"></td>".html_safe
+    end
+  end
+
   def title
     @title || "Sinderion"
   end
