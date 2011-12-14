@@ -1,3 +1,5 @@
+%table#filters
+  %tbody
 %table
   %thead
     %tr
@@ -5,13 +7,15 @@
       %th Cost
       %th Value
       %th Weight
-      %th{:colspan => 4} Effects
+      %th{:colspan => 8} Effects
   %tbody
     - @ingredients.each do |i|
-      %tr
+      %tr.filterable
         %td= link_to i.name, i
         %td= i.cost
         %td= i.value
         %td= i.weight
         - i.effects.each do |e|
-          %td= link_to e.name, e
+          - effect_class = "effect-#{e.id}"
+          %td.center= link_to "+", e, :class => "filter #{effect_class}"
+          %td= link_to e.name, e, :class => "name #{effect_class}"
