@@ -3,7 +3,8 @@ class IngredientsController < ApplicationController
 
   def index
     @ingredients = Ingredient.all
-    @title = "Ingredients"
+    @title = "Sinderion"
+    @description = "Figure out what to do with all them Nirnroots."
   end
 
   def show
