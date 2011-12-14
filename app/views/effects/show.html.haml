@@ -15,21 +15,21 @@
     %tr
       %th Name
       %th{:colspan => 4} Effects
-      %th Value
+      %th.right Value
   %tbody
     - @effect.ingredients.each do |i|
       %tr
         %td= link_to i.name, i
         - i.effects.each do |e|
           %td= link_to e.name, e
-        %td= i.value
+        %td.right= i.value
 %h2 Potions
 %table
   %thead
     %tr
       %th{:colspan => 3} Ingredients
       %th{:colspan => 5} Effects
-      %th Value
+      %th.right Value
       %th &nbsp;
   %tbody
     - @potions.each do |potion|
@@ -40,6 +40,6 @@
         - potion.effects.each do |e|
           %td= link_to_unless_current e.name, e
         = pad_columns potion.effects.count, 5
-        %td= potion.value
+        %td.right= potion.value
         %td= link_to "see description", potion
 = will_paginate @potions

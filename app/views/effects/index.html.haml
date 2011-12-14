@@ -3,14 +3,14 @@
     %tr
       %th Name
       %th Description
-      %th Value
+      %th.right Value
       %th Ingredients
   %tbody
     - @effects.each do |e|
       %tr
         %td= link_to e.name, e
         %td= e.description
-        %td= e.value
+        %td.right= e.value
         %td
           %ul
             - e.ingredients.each do |i|

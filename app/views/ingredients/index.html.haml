@@ -1,21 +1,24 @@
+%h2 Filters
 %table#filters
   %tbody
+%p Click the +/- signs next to an effect to add it to the list of filters.
+%h2 Ingredient Listing
 %table
   %thead
     %tr
       %th Name
-      %th Cost
-      %th Value
-      %th Weight
+      %th.right Cost
+      %th.right Value
+      %th.right Weight
       %th{:colspan => 8} Effects
   %tbody
     - @ingredients.each do |i|
       %tr.filterable
         %td= link_to i.name, i
-        %td= i.cost
-        %td= i.value
-        %td= i.weight
+        %td.right= i.cost
+        %td.right= i.value
+        %td.right= pad_weight(i.weight)
         - i.effects.each do |e|
           - effect_class = "effect-#{e.id}"
-          %td.center= link_to "+", e, :class => "filter #{effect_class}"
-          %td= link_to e.name, e, :class => "name #{effect_class}"
+          %td.center{:title => "Toggle filter for #{e.name}"}= link_to "+", e, :class => "filter #{effect_class}"
+          %td{:title => "See details for #{e.name}"}= link_to e.name, e, :class => "name #{effect_class}"

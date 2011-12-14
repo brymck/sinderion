@@ -23,15 +23,19 @@
   %thead
     %tr
       %th Name
+      %th.right Cost
+      %th.right Value
+      %th.right Weight
       %th{:colspan => 4} Effects
-      %th Value
   %tbody
     - @ingredient.compatible_list.each do |i|
       %tr
         %td= link_to i.name, i
+        %td.right= i.cost
+        %td.right= (@ingredient.effects & i.effects).map(&:value).inject(:+)
+        %td.right= pad_weight i.weight
         - i.effects.each do |e|
           %td{:class => (@ingredient.effects.include?(e) ? nil : "not_match")}= link_to e.name, e
-        %td= (@ingredient.effects & i.effects).map(&:value).inject(:+)
 %h2 Potions
 %table
   %thead
