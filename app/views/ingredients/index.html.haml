@@ -37,5 +37,5 @@
           - effect_class = "effect-#{e.id}"
           %td.center= link_to "+", e, :class => "effect #{effect_class}"
           %td= link_to e.name, e, :class => "effect-name #{effect_class}"
-%p#potion_link
+%p#potion_link.hidden
   %a= "See full potion description."

@@ -81,7 +81,7 @@ highlightDoubles = ->
     $(".effect.#{effect}").parent().addClass "doubled"
 
 showPotionLink = (ingredientsChosen) ->
-  if ingredientsChosen is 3
+  if ingredientsChosen in [2, 3]
     link = "/potions"
     $ingredients.find(".ingredient-name").each (i, a) ->
       link += a.href.match(INGREDIENT_LINK_REGEX)[FIRST_BACKREF]
