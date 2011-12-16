@@ -2,7 +2,16 @@ EFFECT_REGEX = /effect-(\d+)/
 FULL_MATCH = 0
 ADD_TEXT = "+"
 REMOVE_TEXT = "-"
+
+# Search type indexes
+AT_LEAST_ONE = 0
+AT_LEAST_TWO = 1
+ALL = 2
+CUSTOM = 3
+
+# Objects
 $filters = null
+$searchTypes = null
 
 getEffectClass = (node) ->
   node.className.match(EFFECT_REGEX)[FULL_MATCH]
@@ -13,8 +22,20 @@ getFilters = (effectClass) ->
 getNames = (effectClass) ->
   $(".#{effectClass}.name")
 
+getMinMatches = (length) ->
+  switch $searchTypes.filter(":checked").data("index")
+    when AT_LEAST_ONE
+      Math.min length, 1
+    when AT_LEAST_TWO
+      Math.min length, 2
+    when ALL
+      length
+    when CUSTOM
+      if length > 1 then length - 1 else length
+
 checkFilters = ->
-  filterLength = $("tr.custom").length
+  filterLength = getMinMatches($("tr.custom").length)
+  console.log filterLength
   $(".filterable").each (i, tr) ->
     $tr = $(tr)
     hasMatch = false
@@ -60,5 +81,7 @@ unhighlight = ->
 
 $ ->
   $filters = $("#filters tbody")
+  $searchTypes = $("input[name=search_type]")
   $(".filter").click filterEffect
   $(".filter, .name").hover highlightMatches, unhighlight
+  $searchTypes.keyup(checkFilters).mouseup(checkFilters).change(checkFilters)

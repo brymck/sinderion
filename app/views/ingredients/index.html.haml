@@ -1,4 +1,11 @@
 %h2 Filters
+%p
+  Match:
+  - search_types = ["at least one", "at least two", "all", "custom (best fit)"]
+  - search_types.each_with_index do |search_type, index|
+    %label
+      %input{:type => :radio, :"data-index" => index, :name => "search_type", :checked => (search_type == search_types.last)}
+      = search_type
 %table#filters
   %tbody
 %p Click the +/- signs next to an effect to add it to the list of filters.
