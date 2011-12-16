@@ -6,26 +6,36 @@
     %label
       %input{:type => :radio, :"data-index" => index, :name => "search_type", :checked => (search_type == search_types.last)}
       = search_type
-%table#filters
-  %tbody
-%p Click the +/- signs next to an effect to add it to the list of filters.
+.float-left
+  %h4 Ingredients
+  %table#ingredients
+    %tbody
+.float-left
+  %h4 Effects
+  %table#effects
+    %tbody
+%p.clear Click the +/- signs next to an effect to add it to the list of filters.
 %h2 Ingredient Listing
 %table
   %thead
     %tr
-      %th Name
+      %th{:colspan => 2} Name
       %th.right Cost
       %th.right Value
       %th.right Weight
       %th{:colspan => 8} Effects
   %tbody
     - @ingredients.each do |i|
-      %tr.filterable
-        %td= link_to i.name, i
+      - ingredient_class = "ingredient-#{i.id}"
+      %tr.filterable{:id => ingredient_class}
+        %td.center= link_to "+", i, :class => "ingredient #{ingredient_class}"
+        %td= link_to i.name, i, :class => "ingredient-name #{ingredient_class}"
         %td.right= i.cost
         %td.right= i.value
         %td.right= pad_weight(i.weight)
         - i.effects.each do |e|
           - effect_class = "effect-#{e.id}"
-          %td.center{:title => "Toggle filter for #{e.name}"}= link_to "+", e, :class => "filter #{effect_class}"
-          %td{:title => "See details for #{e.name}"}= link_to e.name, e, :class => "name #{effect_class}"
+          %td.center= link_to "+", e, :class => "effect #{effect_class}"
+          %td= link_to e.name, e, :class => "effect-name #{effect_class}"
+%p#potion_link
+  %a= "See full potion description."
