@@ -7,14 +7,23 @@
       %input{:type => :radio, :"data-index" => index, :name => "search_type", :checked => (search_type == search_types.last)}
       = search_type
 .float-left
-  %h4 Ingredients
   %table#ingredients
     %tbody
 .float-left
-  %h4 Effects
   %table#effects
     %tbody
-%p.clear Click the +/- signs next to an effect to add it to the list of filters.
+%p.clear
+  Click an ingredient or effect to add it to the list of filters. Effects
+  matching these filters will be colored blue.
+%p
+  Ingredients will add all of their effects to the search (and thus "matching
+  all" isn't very useful). When 2 or 3 ingredients are added, any matched
+  ingredients will be colored green. Also, a link to a fuller description of
+  the potion will be shown at the bottom.
+%p
+  Hold down Shift and click an ingredient or effect to go to its page, which
+  will allow you to look at its matching ingredients and all potions, ordered
+  from most to least valuable.
 %h2 Ingredient Listing
 %table
   %thead

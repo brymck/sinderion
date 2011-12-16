@@ -110,7 +110,7 @@ addIngredient = (ingredientClass, $node) ->
     $n = $(effect)
     addEffect getEffectClass(effect), $n, true
   $ingredientClone = $node.clone().click(filterIngredient)
-  $nameClone       = getIngredientName(ingredientClass).eq(0).clone()
+  $nameClone       = getIngredientName(ingredientClass).eq(0).clone().click(filterIngredient)
   $ingredientTd    = $("<td>").append($ingredientClone)
   $nameTd          = $("<td>").append($nameClone)
   $tr = $("<tr>").addClass("custom").addClass(ingredientClass)
@@ -133,7 +133,7 @@ removeIngredient = (ingredientClass) ->
 addEffect = (effectClass, $node, suppressCheck = false) ->
   getEffects(effectClass).text(REMOVE_TEXT).parent().addClass "matched"
   $effectClone = $node.clone().click(filterEffect)
-  $nameClone   = getEffectNames(effectClass).eq(0).clone()
+  $nameClone   = getEffectNames(effectClass).eq(0).clone().click(filterEffect)
   $effectTd    = $("<td>").append($effectClone)
   $nameTd      = $("<td>").append($nameClone)
   $tr = $("<tr>").addClass("custom").addClass(effectClass)
@@ -149,9 +149,12 @@ removeEffect = (effectClass, suppressCheck = false) ->
   checkEffects() unless suppressCheck
 
 filterIngredient = (e) ->
+  return true if e.shiftKey
   e.preventDefault()
   $node = $(e.target)
-  ingredientClass = getIngredientClass(e.target)
+  if $node.hasClass("ingredient-name")
+    $node = $node.parent().prev().find(".ingredient")
+  ingredientClass = getIngredientClass($node[0])
   if $node.text() is ADD_TEXT
     # deal with adding
     $(".#{ingredientClass}.ingredient").text(REMOVE_TEXT).addClass "chosen"
@@ -162,9 +165,12 @@ filterIngredient = (e) ->
     removeIngredient ingredientClass
 
 filterEffect = (e) ->
+  return true if e.shiftKey
   e.preventDefault()
   $node = $(e.target)
-  effectClass = getEffectClass(e.target)
+  if $node.hasClass("effect-name")
+    $node = $node.parent().prev().find(".effect")
+  effectClass = getEffectClass($node[0])
   if $node.text() is ADD_TEXT
     addEffect effectClass, $node
   else
@@ -182,7 +188,7 @@ $ ->
   $ingredients = $("#ingredients tbody")
   $searchTypes = $("input[name=search_type]")
   $potionLink = $("#potion_link")
-  $(".ingredient").click filterIngredient
-  $(".effect").click filterEffect
+  $(".ingredient, .ingredient-name").click filterIngredient
+  $(".effect, .effect-name").click filterEffect
   $(".effect, .effect-name").hover highlightMatches, unhighlight
   $searchTypes.keyup(checkEffects).mouseup(checkEffects).change(checkEffects)
